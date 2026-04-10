@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Digital Experience Optimization — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ============================================================
+   GLOBAL RESET & BASE
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:#09090f;
+  color:#e2e2ee;
+  font-family:'DM Sans',sans-serif;
+  font-weight:300;
+  line-height:1.6;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ============================================================
+   TOP NAV
+   ============================================================ */
+.top-nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:#09090fee;backdrop-filter:blur(14px);
+  border-bottom:1px solid #ffffff10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;height:60px;
+}
+.top-nav-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.3rem;letter-spacing:0.1em;color:#ff4d4d;
+}
+.top-nav-tabs{display:flex;gap:0.25rem;}
+.tab-btn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;
+  padding:0.45rem 1rem;border-radius:6px;border:1px solid transparent;
+  cursor:pointer;transition:all 0.2s;background:transparent;color:#66667a;
+}
+.tab-btn:hover{color:#e2e2ee;border-color:#ffffff15;background:#ffffff08;}
+.tab-btn.active{color:#fff;border-color:#ffffff20;background:#ffffff12;}
+.tab-btn.active[data-tab="p1"]{color:#ff4d4d;border-color:#ff4d4d44;background:#ff4d4d10;}
+.tab-btn.active[data-tab="p2"]{color:#c8522a;border-color:#c8522a44;background:#c8522a10;}
+.tab-btn.active[data-tab="p3"]{color:#00d4ff;border-color:#00d4ff44;background:#00d4ff10;}
+.tab-btn[data-tab="home"].active{color:#fff;border-color:#ffffff30;background:#ffffff10;}
+
+/* ============================================================
+   PANELS
+   ============================================================ */
+.panel{display:none;padding-top:60px;}
+.panel.active{display:block;}
+
+/* ============================================================
+   ██████  HOME
+   ============================================================ */
+#home{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:4rem 2rem;
+  position:relative;overflow:hidden;
+}
+#home::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 60% at 20% 40%,#ff4d4d0a,transparent),
+    radial-gradient(ellipse 50% 50% at 80% 60%,#00d4ff08,transparent);
+  pointer-events:none;
+}
+/* grid lines */
+#home::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(#ffffff04 1px,transparent 1px),
+    linear-gradient(90deg,#ffffff04 1px,transparent 1px);
+  background-size:50px 50px;
+  pointer-events:none;
+}
+.home-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.3em;color:#66667a;
+  text-transform:uppercase;margin-bottom:2rem;text-align:center;
+  position:relative;z-index:1;
+  animation:fadeUp 0.6s ease both;
+}
+.home-h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3rem,9vw,8rem);
+  line-height:0.9;text-align:center;
+  letter-spacing:0.02em;
+  margin-bottom:1.5rem;max-width:900px;
+  position:relative;z-index:1;
+  animation:fadeUp 0.6s ease 0.1s both;
+}
+.home-h1 span{color:#ff4d4d;}
+.home-h1 em{font-style:normal;color:#66667a;}
+.home-tagline{
+  text-align:center;font-size:1rem;color:#66667a;
+  max-width:520px;margin:0 auto 4rem;
+  position:relative;z-index:1;
+  animation:fadeUp 0.6s ease 0.2s both;
+}
+.home-tagline strong{color:#e2e2ee;font-weight:400;}
+
+.proj-cards{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;width:100%;max-width:980px;
+  position:relative;z-index:1;
+  animation:fadeUp 0.6s ease 0.3s both;
+}
+.proj-card{
+  background:#111118;border:1px solid #ffffff0d;border-radius:14px;
+  padding:2rem;cursor:pointer;
+  transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s;
+  text-align:left;position:relative;overflow:hidden;
+}
+.proj-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--c);
+}
+.proj-card:hover{
+  transform:translateY(-6px);
+  border-color:var(--c);
+  box-shadow:0 20px 40px #00000040;
+}
+.proj-card[data-target="p1"]{--c:#ff4d4d;}
+.proj-card[data-target="p2"]{--c:#c8522a;}
+.proj-card[data-target="p3"]{--c:#00d4ff;}
+.card-num{
+  font-family:'Bebas Neue',sans-serif;font-size:3.5rem;
+  color:var(--c);line-height:1;margin-bottom:0.8rem;
+}
+.card-title{font-size:1.05rem;font-weight:500;margin-bottom:0.5rem;}
+.card-desc{font-size:0.82rem;color:#66667a;line-height:1.6;margin-bottom:1.2rem;}
+.card-tags{display:flex;gap:0.4rem;flex-wrap:wrap;}
+.card-tag{
+  font-family:'JetBrains Mono',monospace;font-size:0.58rem;
+  padding:0.2rem 0.5rem;border-radius:2rem;
+  border:1px solid #ffffff12;color:#66667a;
+}
+.card-arrow{
+  position:absolute;bottom:1.5rem;right:1.5rem;
+  font-size:1.2rem;color:var(--c);opacity:0;
+  transition:opacity 0.2s,transform 0.2s;
+}
+.proj-card:hover .card-arrow{opacity:1;transform:translateX(4px);}
+
+/* ============================================================
+   ██████  PROJECT 1 — FUNNEL
+   ============================================================ */
+#p1{
+  font-family:'DM Sans',sans-serif;
+  background:#0a0a0f;
+  min-height:100vh;
+}
+/* noise */
+#p1::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity:0.4;
+}
+
+.p1-hero{
+  min-height:90vh;display:flex;flex-direction:column;justify-content:center;
+  padding:5rem 2.5rem 4rem;position:relative;overflow:hidden;
+}
+.p1-hero::after{
+  content:'';position:absolute;top:-200px;right:-200px;
+  width:700px;height:700px;
+  background:radial-gradient(circle,#ff4d4d18,transparent 70%);
+  pointer-events:none;
+}
+.p1-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;letter-spacing:0.25em;color:#ff4d4d;text-transform:uppercase;
+  margin-bottom:1.5rem;display:flex;align-items:center;gap:0.8rem;
+}
+.p1-eyebrow::before{content:'';display:block;width:2rem;height:1px;background:#ff4d4d;}
+.p1-h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.5rem,9vw,8rem);line-height:0.9;letter-spacing:0.02em;
+  margin-bottom:2rem;
+}
+.p1-h1 span{color:#ff4d4d;}
+.p1-desc{max-width:560px;font-size:1.05rem;color:#8888aa;margin-bottom:3rem;}
+.p1-hero-stats{display:flex;gap:3rem;flex-wrap:wrap;}
+.p1-stat strong{display:block;font-family:'Bebas Neue',sans-serif;font-size:2.5rem;line-height:1;}
+.p1-stat span{font-size:0.78rem;color:#8888aa;text-transform:uppercase;letter-spacing:0.1em;}
+
+.p1-section{padding:5rem 2.5rem;max-width:1200px;margin:0 auto;position:relative;z-index:1;}
+.p1-label{
+  font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#ff8c42;
+  letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.8rem;
+  display:flex;align-items:center;gap:0.7rem;
+}
+.p1-label::after{content:'';flex:1;max-width:60px;height:1px;background:#ff8c42;}
+.p1-h2{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2rem,5vw,3.8rem);line-height:1;letter-spacing:0.02em;margin-bottom:2.5rem;
+}
+.p1-divider{border:none;border-top:1px solid #ffffff0d;margin:0 2.5rem;}
+
+/* funnel */
+.funnel-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+@media(max-width:768px){.funnel-wrap{grid-template-columns:1fr;}}
+.funnel-stages{display:flex;flex-direction:column;gap:0.5rem;}
+.f-stage{
+  border-radius:6px;padding:1.4rem 1.8rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border:1px solid #ffffff12;background:#12121a;
+  transition:transform 0.2s;cursor:default;position:relative;overflow:hidden;
+}
+.f-stage::before{content:'';position:absolute;left:0;top:0;bottom:0;background:currentColor;opacity:0.08;}
+.f-stage.s1{color:#4dffb4;}.f-stage.s1::before{width:100%;}
+.f-stage.s2{color:#4db8ff;}.f-stage.s2::before{width:40%;}
+.f-stage.s3{color:#b44dff;}.f-stage.s3::before{width:15%;}
+.f-stage.s4{color:#ff4d4d;}.f-stage.s4::before{width:6%;}
+.f-stage:hover{transform:translateX(6px);}
+.f-info{position:relative;z-index:1;}
+.f-name{font-weight:500;font-size:1rem;color:#e8e8f0;}
+.f-sub{font-size:0.75rem;color:#8888aa;margin-top:0.2rem;}
+.f-right{position:relative;z-index:1;text-align:right;}
+.f-count{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;}
+.f-pct{font-size:0.72rem;color:#8888aa;}
+.drop-arrow{text-align:center;padding:0.2rem 0;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#ff4d4d;}
+.dropoff-card{background:#ff4d4d10;border:1px solid #ff4d4d44;border-radius:10px;padding:2rem;}
+.dropoff-card h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#ff4d4d;margin-bottom:1rem;}
+.dropoff-card p{color:#8888aa;font-size:0.9rem;line-height:1.7;margin-bottom:1.2rem;}
+.big-num{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:#ff4d4d;line-height:1;}
+.big-num span{font-family:'DM Sans',sans-serif;font-size:0.95rem;color:#8888aa;display:block;font-weight:300;}
+
+/* root causes */
+.causes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;}
+.cause-card{
+  background:#12121a;border:1px solid #ffffff12;border-radius:10px;padding:1.8rem;
+  position:relative;overflow:hidden;transition:border-color 0.2s,transform 0.2s;
+}
+.cause-card:hover{border-color:#ff8c42;transform:translateY(-4px);}
+.cause-icon{font-size:2rem;margin-bottom:1rem;}
+.cause-card h3{font-size:1rem;font-weight:500;margin-bottom:0.5rem;}
+.cause-card p{font-size:0.82rem;color:#8888aa;}
+.sev{position:absolute;top:1.2rem;right:1.2rem;font-family:'JetBrains Mono',monospace;font-size:0.62rem;padding:0.2rem 0.5rem;border-radius:2rem;}
+.sev-h{background:#ff4d4d22;color:#ff4d4d;border:1px solid #ff4d4d44;}
+.sev-m{background:#ff8c4222;color:#ff8c42;border:1px solid #ff8c4244;}
+.sev-l{background:#4dffb422;color:#4dffb4;border:1px solid #4dffb444;}
+
+/* solutions */
+.sol-list{display:flex;flex-direction:column;gap:1rem;}
+.sol-item{
+  display:flex;align-items:flex-start;gap:1.5rem;
+  background:#12121a;border:1px solid #ffffff12;border-radius:10px;padding:1.5rem;
+  transition:border-color 0.2s;
+}
+.sol-item:hover{border-color:#4dffb4;}
+.sol-num{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#4dffb4;line-height:1;flex-shrink:0;width:2.5rem;}
+.sol-text h3{font-size:1rem;font-weight:500;margin-bottom:0.4rem;}
+.sol-text p{font-size:0.82rem;color:#8888aa;}
+.impact-badge{
+  margin-left:auto;flex-shrink:0;align-self:center;
+  font-family:'JetBrains Mono',monospace;font-size:0.68rem;
+  padding:0.3rem 0.7rem;border-radius:2rem;
+  background:#4dffb415;color:#4dffb4;border:1px solid #4dffb433;white-space:nowrap;
+}
+
+/* ab test */
+.ab-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+@media(max-width:600px){.ab-wrap{grid-template-columns:1fr;}}
+.ab-card{border-radius:12px;padding:2rem;border:1px solid #ffffff12;background:#12121a;position:relative;}
+.ab-card.winner{border-color:#4dffb4;}
+.ab-badge{
+  font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.15em;
+  padding:0.3rem 0.8rem;border-radius:2rem;display:inline-block;margin-bottom:1.5rem;
+}
+.ab-card.control .ab-badge{background:#1a1a26;color:#8888aa;border:1px solid #ffffff15;}
+.ab-card.winner .ab-badge{background:#4dffb422;color:#4dffb4;border:1px solid #4dffb444;}
+.cta-preview{border-radius:8px;padding:1rem 1.5rem;text-align:center;font-weight:500;font-size:1rem;margin:1.5rem 0;cursor:pointer;transition:transform 0.15s,opacity 0.15s;}
+.cta-preview:hover{transform:scale(1.03);opacity:0.9;}
+.cta-a{background:#1a1a26;border:2px solid #ffffff15;color:#e8e8f0;}
+.cta-b{background:#4dffb4;color:#001a0d;}
+.ab-metrics{display:flex;flex-direction:column;gap:0.7rem;}
+.ab-row{display:flex;justify-content:space-between;align-items:center;}
+.ab-row span{font-size:0.82rem;color:#8888aa;}
+.ab-row strong{font-family:'JetBrains Mono',monospace;font-size:0.88rem;}
+
+/* metrics */
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;}
+.met-card{
+  background:#12121a;border:1px solid #ffffff12;border-radius:10px;padding:2rem;
+  text-align:center;position:relative;overflow:hidden;
+}
+.met-card::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:2px;}
+.met-card.up::after{background:#4dffb4;}
+.met-card.dn::after{background:#ff4d4d;}
+.met-val{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;line-height:1;margin-bottom:0.3rem;}
+.met-card.up .met-val{color:#4dffb4;}
+.met-card.dn .met-val{color:#ff4d4d;}
+.met-lbl{font-size:0.75rem;color:#8888aa;text-transform:uppercase;letter-spacing:0.1em;}
+
+/* ============================================================
+   ██████  PROJECT 2 — LANDING PAGE
+   ============================================================ */
+#p2{
+  font-family:'IBM Plex Sans',sans-serif;
+  background:#f5f0e8;color:#1a1410;
+  min-height:100vh;
+}
+.p2-hero{
+  min-height:85vh;
+  background:#1a1410;color:#f5f0e8;
+  padding:5rem 2.5rem 4rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+  position:relative;overflow:hidden;
+}
+@media(max-width:768px){.p2-hero{grid-template-columns:1fr;}}
+.p2-hero::before{content:'';position:absolute;top:0;right:0;width:50%;height:100%;background:#c8522a;opacity:0.08;}
+.p2-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.3em;color:#c8522a;text-transform:uppercase;margin-bottom:1.5rem;}
+.p2-h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5.5vw,5rem);line-height:1.05;font-weight:900;margin-bottom:2rem;}
+.p2-h1 em{color:#c8522a;font-style:italic;}
+.p2-desc{font-size:0.98rem;color:#b8b0a0;line-height:1.75;max-width:420px;margin-bottom:3rem;}
+.p2-nums{display:flex;gap:3rem;flex-wrap:wrap;}
+.p2-num strong{display:block;font-family:'Playfair Display',serif;font-size:2.2rem;color:#c8522a;line-height:1;}
+.p2-num span{font-size:0.72rem;color:#8a7e72;text-transform:uppercase;letter-spacing:0.1em;}
+
+/* mockup */
+.lp-mock{background:#fff;border-radius:12px;overflow:hidden;border:1px solid #ffffff20;box-shadow:0 40px 80px #0000005a;position:relative;z-index:1;}
+.lp-bar{background:#e8e8e8;padding:0.6rem 1rem;display:flex;align-items:center;gap:0.4rem;}
+.lp-dot{width:10px;height:10px;border-radius:50%;}
+.lp-url{flex:1;background:#fff;border-radius:4px;padding:0.2rem 0.6rem;font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:#666;margin-left:0.4rem;}
+.lp-hero-blk{background:#c8522a;padding:1.5rem;color:white;}
+.lp-h-tag{font-size:0.5rem;letter-spacing:0.2em;opacity:0.7;text-transform:uppercase;margin-bottom:0.3rem;}
+.lp-h-h{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:0.4rem;line-height:1.2;}
+.lp-h-sub{font-size:0.6rem;opacity:0.8;margin-bottom:1rem;}
+.lp-cta-btn{
+  background:white;color:#c8522a;font-weight:500;font-size:0.68rem;
+  padding:0.5rem 1rem;border-radius:4px;display:inline-block;cursor:pointer;
+  border:none;transition:opacity 0.2s,transform 0.15s;
+}
+.lp-cta-btn:hover{opacity:0.85;transform:scale(1.02);}
+.lp-social{padding:1rem;background:#f9f6f2;}
+.lp-stars{color:#f5a623;font-size:0.68rem;}
+.lp-review{font-size:0.58rem;color:#666;margin-top:0.2rem;}
+
+.p2-section{padding:5rem 2.5rem;max-width:1200px;margin:0 auto;}
+.p2-divider{border:none;border-top:1px solid #d8d0c4;margin:0 2.5rem;}
+.p2-label{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:#c8522a;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.7rem;}
+.p2-label::after{content:'';width:40px;height:1px;background:#c8522a;}
+.p2-h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:900;line-height:1.05;margin-bottom:2.5rem;}
+
+/* persona cards */
+.p2-persona-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem;}
+.p2-persona-card{background:#fff;border:1px solid #d8d0c4;border-radius:10px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;}
+.p2-persona-card:hover{transform:translateY(-5px);box-shadow:0 20px 40px #00000015;}
+.p2-ph{padding:1.1rem 1.5rem;border-bottom:1px solid #d8d0c4;display:flex;align-items:center;justify-content:space-between;}
+.p2-pt{font-weight:500;font-size:0.88rem;}
+.p2-ptag{font-family:'IBM Plex Mono',monospace;font-size:0.58rem;padding:0.2rem 0.5rem;border-radius:2rem;background:#ede8e0;color:#8a7e72;border:1px solid #d8d0c4;}
+.p2-pb{padding:1.5rem;}
+.p2-cond{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:#2a6cb5;background:#e8f0f9;padding:0.5rem 0.8rem;border-radius:4px;margin-bottom:1rem;}
+.p2-shows{font-size:0.85rem;color:#1a1410;font-weight:500;margin-bottom:0.4rem;}
+.p2-shows span{color:#2a8a4a;}
+.p2-why{font-size:0.78rem;color:#8a7e72;}
+
+/* workflow */
+.wf-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0;position:relative;}
+.wf-steps::before{content:'';position:absolute;top:2.5rem;left:2rem;right:2rem;height:2px;background:repeating-linear-gradient(90deg,#c8522a 0,#c8522a 8px,transparent 8px,transparent 16px);}
+@media(max-width:600px){.wf-steps::before{display:none;}}
+.wf-step{padding:0 1rem 1rem;}
+.wf-num{width:44px;height:44px;border-radius:50%;background:#c8522a;color:white;font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;position:relative;z-index:1;}
+.wf-step h3{font-size:0.88rem;font-weight:500;margin-bottom:0.4rem;}
+.wf-step p{font-size:0.78rem;color:#8a7e72;}
+
+/* p2 exp */
+.p2-exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+@media(max-width:600px){.p2-exp-grid{grid-template-columns:1fr;}}
+.p2-exp-card{border:1px solid #d8d0c4;border-radius:10px;overflow:hidden;}
+.p2-exp-card.winner{border-color:#2a8a4a;}
+.p2-exp-hdr{padding:1rem 1.5rem;background:#ede8e0;border-bottom:1px solid #d8d0c4;display:flex;justify-content:space-between;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:#8a7e72;}
+.p2-win-badge{color:#2a8a4a;}
+.p2-exp-body{padding:1.5rem;background:#fff;}
+.p2-exp-vis{height:80px;border-radius:6px;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:500;}
+.p2-vis-a{background:#f5e8e2;color:#c8522a;border:2px dashed #d88a6a;}
+.p2-vis-b{background:#c8522a;color:white;}
+.p2-exp-stats{display:flex;gap:1.5rem;}
+.p2-estat span{display:block;font-size:0.68rem;color:#8a7e72;text-transform:uppercase;letter-spacing:0.08em;}
+.p2-estat strong{font-family:'Playfair Display',serif;font-size:1.5rem;color:#1a1410;}
+.p2-exp-card.winner .p2-estat strong{color:#2a8a4a;}
+
+/* p2 metrics */
+.p2-met-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1.5rem;}
+.p2-met-card{background:#fff;border:1px solid #d8d0c4;border-radius:10px;padding:1.8rem;text-align:center;position:relative;overflow:hidden;}
+.p2-met-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#c8522a;}
+.p2-met-val{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:#c8522a;line-height:1;margin-bottom:0.3rem;}
+.p2-met-lbl{font-size:0.72rem;color:#8a7e72;text-transform:uppercase;letter-spacing:0.1em;}
+
+/* ============================================================
+   ██████  PROJECT 3 — BEHAVIORAL
+   ============================================================ */
+#p3{
+  font-family:'Sora',sans-serif;
+  background:#060b14;color:#d4e4f7;
+  min-height:100vh;
+  position:relative;
+}
+#p3::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(#ffffff04 1px,transparent 1px),linear-gradient(90deg,#ffffff04 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;
+}
+.p3-hero{
+  min-height:85vh;display:flex;flex-direction:column;justify-content:center;
+  padding:5rem 2.5rem 4rem;position:relative;overflow:hidden;
+}
+.p3-hero::after{content:'';position:absolute;left:-300px;top:-300px;width:800px;height:800px;background:radial-gradient(circle,#00d4ff12,transparent 60%);pointer-events:none;}
+.p3-hero::before{content:'';position:absolute;right:-200px;bottom:-200px;width:600px;height:600px;background:radial-gradient(circle,#7c3aed15,transparent 60%);pointer-events:none;}
+.p3-eyebrow{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.3em;color:#00d4ff;text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:0.8rem;}
+.p3-eyebrow::before{content:'◈';}
+.p3-h1{font-size:clamp(2.5rem,7vw,6.5rem);font-weight:700;line-height:1;letter-spacing:-0.02em;margin-bottom:2rem;max-width:900px;}
+.p3-h1 .hc{color:#00d4ff;}.p3-h1 .hp{color:#7c3aed;}
+.p3-desc{max-width:520px;font-size:0.98rem;color:#4a6580;margin-bottom:3rem;}
+.p3-pills{display:flex;gap:1rem;flex-wrap:wrap;}
+.p3-pill{font-family:'Space Mono',monospace;font-size:0.62rem;padding:0.4rem 1rem;border-radius:2rem;border:1px solid;letter-spacing:0.1em;}
+.pill-c{color:#00d4ff;border-color:#00d4ff44;background:#00d4ff0a;}
+.pill-p{color:#7c3aed;border-color:#7c3aed44;background:#7c3aed0a;}
+.pill-g{color:#10b981;border-color:#10b98144;background:#10b9810a;}
+
+.p3-section{padding:5rem 2.5rem;max-width:1200px;margin:0 auto;position:relative;z-index:1;}
+.p3-divider{border:none;border-top:1px solid #ffffff0d;margin:0 2.5rem;}
+.p3-label{font-family:'Space Mono',monospace;font-size:0.6rem;color:#00d4ff;letter-spacing:0.25em;text-transform:uppercase;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.7rem;}
+.p3-label::before{content:'▶';font-size:0.5rem;}
+.p3-h2{font-size:clamp(1.8rem,4.5vw,3.2rem);font-weight:700;line-height:1.1;letter-spacing:-0.01em;margin-bottom:2.5rem;}
+
+/* tracking cards */
+.p3-track-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;}
+.p3-track-card{background:#0d1523;border:1px solid #ffffff0f;border-radius:10px;padding:1.8rem;position:relative;overflow:hidden;transition:transform 0.2s,border-color 0.2s;}
+.p3-track-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.tc-cy::before{background:#00d4ff;}.tc-pu::before{background:#7c3aed;}.tc-am::before{background:#f59e0b;}
+.p3-track-card:hover{transform:translateY(-4px);border-color:#00d4ff;}
+.p3-ti{font-size:2rem;margin-bottom:1rem;}
+.p3-track-card h3{font-size:0.92rem;font-weight:500;margin-bottom:0.5rem;}
+.p3-track-card p{font-size:0.78rem;color:#4a6580;line-height:1.6;}
+.p3-tmet{margin-top:1rem;padding-top:1rem;border-top:1px solid #ffffff0f;font-family:'Space Mono',monospace;font-size:0.62rem;color:#00d4ff;}
+
+/* scroll viz */
+.scroll-viz{background:#0d1523;border:1px solid #ffffff0f;border-radius:12px;padding:2rem;margin-top:2rem;}
+.scroll-viz h3{font-size:0.88rem;font-weight:500;margin-bottom:1.5rem;color:#4a6580;}
+.sb-row{display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem;}
+.sb-lbl{font-family:'Space Mono',monospace;font-size:0.62rem;color:#4a6580;width:38px;flex-shrink:0;}
+.sb-track{flex:1;height:20px;background:#131f30;border-radius:3px;overflow:hidden;}
+.sb-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:0.5rem;transition:width 1s ease;}
+.sb-val{font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;color:white;}
+.sf100{width:100%;background:#10b981;}
+.sf82{width:82%;background:#10b981;}
+.sf61{width:61%;background:#f59e0b;}
+.sf38{width:38%;background:#f59e0b;}
+.sf22{width:22%;background:#ef4444;}
+
+/* insights */
+.p3-ins-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+@media(max-width:600px){.p3-ins-grid{grid-template-columns:1fr;}}
+.p3-ins-card{background:#0d1523;border:1px solid #ffffff0f;border-radius:10px;padding:2rem;}
+.p3-ins-icon{font-size:1.5rem;margin-bottom:1rem;}
+.p3-ins-card h3{font-size:0.92rem;font-weight:500;margin-bottom:0.5rem;}
+.p3-ins-card p{font-size:0.8rem;color:#4a6580;}
+.p3-ins-stat{margin-top:1.2rem;font-family:'Space Mono',monospace;font-size:1.7rem;font-weight:700;line-height:1;}
+.sr{color:#ef4444;}.sg{color:#10b981;}.sc{color:#00d4ff;}
+
+/* logic */
+.logic-box{background:#0d1523;border:1px solid #ffffff0f;border-radius:12px;overflow:hidden;}
+.logic-hdr{padding:1.2rem 2rem;background:#131f30;border-bottom:1px solid #ffffff0f;font-family:'Space Mono',monospace;font-size:0.68rem;color:#4a6580;display:flex;align-items:center;gap:0.8rem;}
+.ldot{width:8px;height:8px;border-radius:50%;background:#10b981;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.logic-body{padding:1.5rem;}
+.logic-rule{display:flex;gap:1.5rem;padding:1.2rem;border-radius:8px;margin-bottom:1rem;align-items:flex-start;border:1px solid #ffffff0f;transition:background 0.2s;}
+.logic-rule:hover{background:#131f30;}
+.l-if{font-family:'Space Mono',monospace;font-size:0.65rem;color:#7c3aed;background:#7c3aed15;border:1px solid #7c3aed33;padding:0.5rem 0.7rem;border-radius:4px;flex-shrink:0;white-space:nowrap;align-self:start;min-width:100px;text-align:center;}
+.l-then{flex:1;}
+.l-action{font-weight:500;font-size:0.88rem;margin-bottom:0.3rem;}
+.l-action span{color:#00d4ff;}
+.l-reason{font-size:0.76rem;color:#4a6580;}
+.l-lift{font-family:'Space Mono',monospace;font-size:0.72rem;color:#10b981;background:#10b98115;border:1px solid #10b98133;padding:0.3rem 0.6rem;border-radius:4px;flex-shrink:0;white-space:nowrap;align-self:center;}
+
+/* p3 experiment */
+.p3-exp-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+@media(max-width:600px){.p3-exp-wrap{grid-template-columns:1fr;}}
+.p3-exp-side{background:#0d1523;border:1px solid #ffffff0f;border-radius:10px;overflow:hidden;}
+.p3-exp-side.winner{border-color:#10b981;}
+.p3-exp-top{padding:1rem 1.5rem;background:#131f30;border-bottom:1px solid #ffffff0f;display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:0.6rem;color:#4a6580;}
+.p3-win{color:#10b981;}
+.p3-screen{margin:1.5rem;border-radius:8px;background:#1a2a3a;padding:1.2rem;font-size:0.73rem;}
+.gen-tag{color:#4a6580;font-family:'Space Mono',monospace;font-size:0.58rem;margin-bottom:0.4rem;}
+.gen-h{font-weight:500;color:#d4e4f7;margin-bottom:0.3rem;}
+.gen-sub{color:#4a6580;font-size:0.68rem;}
+.pers-tag{color:#00d4ff;font-family:'Space Mono',monospace;font-size:0.58rem;margin-bottom:0.4rem;}
+.pers-h{font-weight:500;color:#d4e4f7;margin-bottom:0.3rem;}
+.pers-offer{background:#00d4ff;color:#001a2a;font-size:0.62rem;padding:0.3rem 0.6rem;border-radius:3px;display:inline-block;margin-top:0.3rem;cursor:pointer;transition:opacity 0.2s;}
+.pers-offer:hover{opacity:0.85;}
+.p3-exp-stats{padding:1rem 1.5rem;display:flex;gap:1.5rem;}
+.p3es span{display:block;font-family:'Space Mono',monospace;font-size:0.58rem;color:#4a6580;}
+.p3es strong{font-size:1rem;font-family:'Space Mono',monospace;}
+.p3-exp-side.winner .p3es strong{color:#10b981;}
+
+/* p3 metrics */
+.p3-fm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;}
+.p3-fm-card{background:#0d1523;border:1px solid #ffffff0f;border-radius:10px;padding:2rem;text-align:center;position:relative;overflow:hidden;}
+.p3-fm-card::after{content:'';position:absolute;inset:0;opacity:0.04;background:radial-gradient(circle at 50% 0%,var(--cc) 0,transparent 70%);}
+.p3-fm-card[data-c="cy"]{--cc:#00d4ff;}.p3-fm-card[data-c="g"]{--cc:#10b981;}.p3-fm-card[data-c="p"]{--cc:#7c3aed;}.p3-fm-card[data-c="a"]{--cc:#f59e0b;}
+.p3-fm-val{font-size:2.6rem;font-weight:700;line-height:1;margin-bottom:0.4rem;font-family:'Space Mono',monospace;}
+.p3-fm-card[data-c="cy"] .p3-fm-val{color:#00d4ff;}.p3-fm-card[data-c="g"] .p3-fm-val{color:#10b981;}.p3-fm-card[data-c="p"] .p3-fm-val{color:#7c3aed;}.p3-fm-card[data-c="a"] .p3-fm-val{color:#f59e0b;}
+.p3-fm-lbl{font-size:0.7rem;color:#4a6580;text-transform:uppercase;letter-spacing:0.1em;}
+
+/* ============================================================
+   SHARED FOOTER
+   ============================================================ */
+.site-footer{
+  border-top:1px solid #ffffff0d;padding:2rem 2.5rem;
+  text-align:center;background:#09090f;
+  font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:#66667a;
+}
+
+/* ============================================================
+   MODAL (A/B test detail)
+   ============================================================ */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:#000000cc;backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;padding:2rem;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:#12121a;border:1px solid #ffffff20;border-radius:16px;
+  padding:2.5rem;max-width:520px;width:100%;
+  position:relative;animation:fadeUp 0.3s ease both;
+}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  background:transparent;border:1px solid #ffffff20;color:#8888aa;
+  width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;transition:background 0.2s;
+}
+.modal-close:hover{background:#ffffff15;color:#e2e2ee;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;margin-bottom:0.5rem;}
+.modal-body{font-size:0.88rem;color:#8888aa;line-height:1.7;}
+.modal-body strong{color:#e2e2ee;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP NAV
+     ============================================================ -->
+<nav class="top-nav">
+  <div class="top-nav-logo">DX.OPT</div>
+  <div class="top-nav-tabs">
+    <button class="tab-btn active" data-tab="home">Home</button>
+    <button class="tab-btn" data-tab="p1">01 Funnel</button>
+    <button class="tab-btn" data-tab="p2">02 Landing</button>
+    <button class="tab-btn" data-tab="p3">03 Behavioral</button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HOME PANEL
+     ============================================================ -->
+<div id="home" class="panel active">
+  <div class="home-eyebrow">Digital Experience Portfolio</div>
+  <h1 class="home-h1">OPTIMIZE.<br/><em>EXPERIMENT.</em><br/><span>CONVERT.</span></h1>
+  <p class="home-tagline">
+    <strong>"I improved conversion by analyzing user behavior and running experiments."</strong><br/>
+    Three end-to-end case studies that prove exactly that.
+  </p>
+  <div class="proj-cards">
+    <div class="proj-card" data-target="p1">
+      <div class="card-num">01</div>
+      <div class="card-title">Conversion Funnel Optimization</div>
+      <div class="card-desc">Mid-funnel strategy for a theme park booking flow. Identifies the 62.5% drop-off and recovers it through CTA testing, pricing clarity & checkout simplification.</div>
+      <div class="card-tags">
+        <span class="card-tag">Funnel Analysis</span>
+        <span class="card-tag">A/B Testing</span>
+        <span class="card-tag">+63% CVR</span>
+      </div>
+      <div class="card-arrow">→</div>
+    </div>
+    <div class="proj-card" data-target="p2">
+      <div class="card-num">02</div>
+      <div class="card-title">Campaign Landing Page Optimization</div>
+      <div class="card-desc">High-converting page system with location, device & behavior personalization. CMS workflow for marketing autonomy. Sequential experiments on headline, layout & imagery.</div>
+      <div class="card-tags">
+        <span class="card-tag">Personalization</span>
+        <span class="card-tag">CMS Workflow</span>
+        <span class="card-tag">+47% CTR</span>
+      </div>
+      <div class="card-arrow">→</div>
+    </div>
+    <div class="proj-card" data-target="p3">
+      <div class="card-num">03</div>
+      <div class="card-title">Behavioral Analytics + Personalization</div>
+      <div class="card-desc">Adobe Analytics-style behavioral tracking — clicks, scroll depth, session time — powering a real-time personalization engine that adapts to each user segment.</div>
+      <div class="card-tags">
+        <span class="card-tag">Behavioral Analytics</span>
+        <span class="card-tag">Personalization Logic</span>
+        <span class="card-tag">+97% Engagement</span>
+      </div>
+      <div class="card-arrow">→</div>
+    </div>
+  </div>
+
+  <div class="site-footer" style="position:relative;margin-top:5rem;border-top:1px solid #ffffff0d;">
+    Digital Experience Optimization Portfolio &nbsp;·&nbsp; Funnel · Landing Pages · Behavioral Analytics
+  </div>
+</div>
+
+<!-- ============================================================
+     PROJECT 1 — FUNNEL
+     ============================================================ -->
+<div id="p1" class="panel">
+
+  <!-- HERO -->
+  <div class="p1-hero">
+    <div class="p1-eyebrow">Conversion Funnel Optimization — Project 01</div>
+    <h1 class="p1-h1">STOP THE<br/><span>BLEED.</span></h1>
+    <p class="p1-desc">A mid-funnel product strategy for a theme park & hotel booking flow — finding the highest-impact drop-off and recovering lost conversions through experimentation.</p>
+    <div class="p1-hero-stats">
+      <div class="p1-stat"><strong>10,000</strong><span>Total Visitors</span></div>
+      <div class="p1-stat"><strong>6%</strong><span>Baseline CVR</span></div>
+      <div class="p1-stat"><strong>+63%</strong><span>CVR Lift</span></div>
+    </div>
+  </div>
+
+  <hr class="p1-divider"/>
+
+  <!-- FUNNEL ANALYSIS -->
+  <div class="p1-section">
+    <div class="p1-label">01 — Funnel Analysis</div>
+    <h2 class="p1-h2">WHERE ARE USERS <span style="color:#ff4d4d">LEAVING?</span></h2>
+    <div class="funnel-wrap">
+      <div class="funnel-stages">
+        <div class="f-stage s1">
+          <div class="f-info"><div class="f-name">🏠 Landing Page</div><div class="f-sub">Arrived from ads, search, direct</div></div>
+          <div class="f-right"><div class="f-count" style="color:#4dffb4">10,000</div><div class="f-pct">100% baseline</div></div>
+        </div>
+        <div class="drop-arrow">▼ −60% drop-off</div>
+        <div class="f-stage s2">
+          <div class="f-info"><div class="f-name">🗺 Browse & Select</div><div class="f-sub">Viewing tickets / hotel options</div></div>
+          <div class="f-right"><div class="f-count" style="color:#4db8ff">4,000</div><div class="f-pct">40% of visitors</div></div>
+        </div>
+        <div class="drop-arrow">▼ −62.5% drop-off ⚠️ CRITICAL</div>
+        <div class="f-stage s3">
+          <div class="f-info"><div class="f-name">🛒 Checkout Initiated</div><div class="f-sub">Entered checkout flow</div></div>
+          <div class="f-right"><div class="f-count" style="color:#b44dff">1,500</div><div class="f-pct">15% of visitors</div></div>
+        </div>
+        <div class="drop-arrow">▼ −60% drop-off</div>
+        <div class="f-stage s4">
+          <div class="f-info"><div class="f-name">✅ Purchase Complete</div><div class="f-sub">Payment confirmed</div></div>
+          <div class="f-right"><div class="f-count" style="color:#ff4d4d">600</div><div class="f-pct">6% of visitors</div></div>
+        </div>
+      </div>
+      <div class="dropoff-card">
+        <h3>🚨 Critical Drop-Off Identified</h3>
+        <p>The <strong>Browse → Checkout</strong> transition loses <strong>2,500 users</strong> — the single largest drop in the entire funnel. Users are engaging with products but failing to convert intent into action.</p>
+        <div class="big-num">62.5%<span>of browsers never reach checkout</span></div>
+        <br/>
+        <p style="font-size:0.82rem;color:#8888aa;">Even a 10% recovery = <strong style="color:#4dffb4">+250 additional purchases</strong> per 10K visitors.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="p1-divider"/>
+
+  <!-- ROOT CAUSE -->
+  <div class="p1-section">
+    <div class="p1-label">02 — Root Cause Analysis</div>
+    <h2 class="p1-h2">WHY USERS <span style="color:#ff4d4d">DON'T</span> CHECKOUT</h2>
+    <div class="causes-grid">
+      <div class="cause-card"><span class="sev sev-h">HIGH</span><div class="cause-icon">🐌</div><h3>Slow Page Load</h3><p>Pages average 4.8s load time. Every 1s delay reduces conversion ~7%. Mobile users on 4G see 7s+ loads.</p></div>
+      <div class="cause-card"><span class="sev sev-h">HIGH</span><div class="cause-icon">💸</div><h3>Confusing Pricing</h3><p>Taxes revealed at checkout. Users see "$89" then "$127 total" — creating sticker shock and abandonment.</p></div>
+      <div class="cause-card"><span class="sev sev-m">MED</span><div class="cause-icon">📣</div><h3>Weak CTA Placement</h3><p>"Add to Cart" sits below the fold on mobile. 68% of traffic is mobile. Users scroll away before seeing it.</p></div>
+      <div class="cause-card"><span class="sev sev-m">MED</span><div class="cause-icon">🔀</div><h3>Too Many Steps</h3><p>7-step checkout flow vs. 3–4 step industry benchmark. Each extra step reduces completion ~10%.</p></div>
+      <div class="cause-card"><span class="sev sev-l">LOW</span><div class="cause-icon">🏅</div><h3>No Social Proof</h3><p>Product pages lack reviews at the point of decision. No trust signal before committing to checkout.</p></div>
+      <div class="cause-card"><span class="sev sev-l">LOW</span><div class="cause-icon">⏱</div><h3>No Urgency Signal</h3><p>Availability not communicated. Users feel no incentive to convert now vs. "I'll come back later."</p></div>
+    </div>
+  </div>
+
+  <hr class="p1-divider"/>
+
+  <!-- SOLUTIONS -->
+  <div class="p1-section">
+    <div class="p1-label">03 — Recommended Solutions</div>
+    <h2 class="p1-h2">THE FIX <span style="color:#4dffb4">PLAYBOOK</span></h2>
+    <div class="sol-list">
+      <div class="sol-item"><div class="sol-num">01</div><div class="sol-text"><h3>Sticky CTA on Mobile Product Pages</h3><p>Pin "Reserve Now" button to bottom of viewport on scroll. Eliminates the need to hunt for the button on mobile.</p></div><div class="impact-badge">+12% CTR Est.</div></div>
+      <div class="sol-item"><div class="sol-num">02</div><div class="sol-text"><h3>Transparent All-Inclusive Pricing</h3><p>Show final price (taxes + fees) on product card. Eliminates checkout shock. Add "Price Guarantee" badge for trust.</p></div><div class="impact-badge">−18% Abandon Est.</div></div>
+      <div class="sol-item"><div class="sol-num">03</div><div class="sol-text"><h3>Streamline Checkout: 7 Steps → 3</h3><p>Merge date/guest selection into Step 1. Auto-fill returning user info. Guest checkout removes account friction.</p></div><div class="impact-badge">+25% Completion Est.</div></div>
+      <div class="sol-item"><div class="sol-num">04</div><div class="sol-text"><h3>Inline Social Proof at Decision Point</h3><p>Show "4.8★ (2,341 reviews)" directly below ticket title. Increases confidence before CTA click.</p></div><div class="impact-badge">+8% CVR Est.</div></div>
+    </div>
+  </div>
+
+  <hr class="p1-divider"/>
+
+  <!-- AB TEST -->
+  <div class="p1-section">
+    <div class="p1-label">04 — A/B Experimentation</div>
+    <h2 class="p1-h2">CTA <span style="color:#4dffb4">TEST</span> RESULTS</h2>
+    <p style="color:#8888aa;margin-bottom:2.5rem;font-size:0.92rem;max-width:600px;">Split test run over 14 days, 50/50 traffic split (n=4,800 per variant). Primary metric: click-through to checkout.</p>
+    <div class="ab-wrap">
+      <div class="ab-card control">
+        <div class="ab-badge">VERSION A — CONTROL</div>
+        <button class="cta-preview cta-a" onclick="openModal('cta-a')">Book Now</button>
+        <div class="ab-metrics">
+          <div class="ab-row"><span>CTR to Checkout</span><strong>14.2%</strong></div>
+          <div class="ab-row"><span>Checkout Completion</span><strong>38.1%</strong></div>
+          <div class="ab-row"><span>Overall CVR</span><strong>5.4%</strong></div>
+          <div class="ab-row"><span>Confidence</span><strong>—</strong></div>
+        </div>
+      </div>
+      <div class="ab-card winner">
+        <div class="ab-badge">✦ VERSION B — WINNER</div>
+        <button class="cta-preview cta-b" onclick="openModal('cta-b')">Reserve Your Spot Today</button>
+        <div class="ab-metrics">
+          <div class="ab-row"><span>CTR to Checkout</span><strong style="color:#4dffb4">18.7% ↑</strong></div>
+          <div class="ab-row"><span>Checkout Completion</span><strong style="color:#4dffb4">41.9% ↑</strong></div>
+          <div class="ab-row"><span>Overall CVR</span><strong style="color:#4dffb4">7.8% ↑</strong></div>
+          <div class="ab-row"><span>Confidence</span><strong style="color:#4dffb4">97.3%</strong></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem;padding:1.2rem 1.8rem;background:#12121a;border-radius:8px;border:1px solid #ffffff0d;font-size:0.83rem;color:#8888aa;">
+      <strong style="color:#e8e8f0">Why Version B Won:</strong> Ownership language ("your spot"), urgency ("today"), and emotional framing — not a transaction, but an experience claim. Click either CTA to see the insight breakdown.
+    </div>
+  </div>
+
+  <hr class="p1-divider"/>
+
+  <!-- METRICS -->
+  <div class="p1-section">
+    <div class="p1-label">05 — Outcome Metrics</div>
+    <h2 class="p1-h2">BEFORE <span style="color:#8888aa">vs</span> AFTER</h2>
+    <div class="metrics-grid">
+      <div class="met-card up"><div class="met-val">+63%</div><div class="met-lbl">Conversion Rate ↑</div></div>
+      <div class="met-card dn"><div class="met-val">−31%</div><div class="met-lbl">Bounce Rate ↓</div></div>
+      <div class="met-card up"><div class="met-val">+44%</div><div class="met-lbl">Checkout Completion ↑</div></div>
+      <div class="met-card dn"><div class="met-val">−28%</div><div class="met-lbl">Cart Abandonment ↓</div></div>
+      <div class="met-card up"><div class="met-val">+2.1s</div><div class="met-lbl">Avg. Session Time ↑</div></div>
+      <div class="met-card up"><div class="met-val">+$84K</div><div class="met-lbl">Monthly Revenue Lift ↑</div></div>
+    </div>
+  </div>
+
+  <div class="site-footer">Project 01 — Conversion Funnel Optimization</div>
+</div>
+
+<!-- ============================================================
+     PROJECT 2 — LANDING PAGE
+     ============================================================ -->
+<div id="p2" class="panel">
+
+  <div class="p2-hero">
+    <div>
+      <div class="p2-eyebrow">Campaign Landing Page Optimization — Project 02</div>
+      <h1 class="p2-h1">Traffic<br/>arrives.<br/><em>Nobody</em><br/>converts.</h1>
+      <p class="p2-desc">A high-converting campaign landing page system — combining personalization, CMS workflow, and rigorous experimentation to make every click count.</p>
+      <div class="p2-nums">
+        <div class="p2-num"><strong>+47%</strong><span>CTR Lift</span></div>
+        <div class="p2-num"><strong>9.2%</strong><span>Final CVR</span></div>
+        <div class="p2-num"><strong>3×</strong><span>Experiments</span></div>
+      </div>
+    </div>
+    <div class="lp-mock">
+      <div class="lp-bar">
+        <div class="lp-dot" style="background:#ff5f57"></div>
+        <div class="lp-dot" style="background:#febc2e"></div>
+        <div class="lp-dot" style="background:#28c840"></div>
+        <div class="lp-url">adventureland.com/summer-escape</div>
+      </div>
+      <div class="lp-hero-blk">
+        <div class="lp-h-tag">🌴 Summer Campaign 2025</div>
+        <div class="lp-h-h">Your Family's Best<br/>Summer Starts Here</div>
+        <div class="lp-h-sub">3-night stays from $189 · Free park tickets · Book by July 31</div>
+        <button class="lp-cta-btn" onclick="openModal('lp-cta')">→ Reserve My Family's Spot</button>
+      </div>
+      <div class="lp-social">
+        <div class="lp-stars">★★★★★</div>
+        <div class="lp-review">4.9/5 from 3,841 guests · "Best family trip we've ever taken" — Sarah M., TX</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="p2-divider"/>
+
+  <!-- PAGE ARCHITECTURE -->
+  <div class="p2-section">
+    <div class="p2-label">01 — Page Architecture</div>
+    <h2 class="p2-h2">Building the<br/><em>High-Converting</em> Page</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.5rem;">
+      <div style="background:#fff;border:1px solid #d8d0c4;border-radius:10px;padding:2rem;">
+        <div style="font-size:1.8rem;margin-bottom:1rem;">🦸</div>
+        <h3 style="font-weight:500;margin-bottom:0.6rem;">Hero Section</h3>
+        <p style="font-size:0.83rem;color:#8a7e72;">Emotionally resonant headline. Family-focused imagery. Value prop in one sentence. CTA visible above the fold on all devices. No nav distractions.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #d8d0c4;border-radius:10px;padding:2rem;">
+        <div style="font-size:1.8rem;margin-bottom:1rem;">📣</div>
+        <h3 style="font-weight:500;margin-bottom:0.6rem;">Clear CTA Hierarchy</h3>
+        <p style="font-size:0.83rem;color:#8a7e72;">Primary CTA in contrast color. Secondary for researchers. First-person ownership language ("My Spot"). Repeated every 2 screen-heights.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #d8d0c4;border-radius:10px;padding:2rem;">
+        <div style="font-size:1.8rem;margin-bottom:1rem;">⭐</div>
+        <h3 style="font-weight:500;margin-bottom:0.6rem;">Social Proof Block</h3>
+        <p style="font-size:0.83rem;color:#8a7e72;">Aggregate star rating prominently displayed. 3 named, city-attributed reviews. Media logos. Trust signals reduce hesitation before CTA click.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="p2-divider"/>
+
+  <!-- PERSONALIZATION -->
+  <div style="background:#ede8e0;padding:5rem 0;">
+  <div class="p2-section" style="padding-top:0;padding-bottom:0;">
+    <div class="p2-label">02 — Personalization Engine</div>
+    <h2 class="p2-h2">Right message.<br/>Right user. Right moment.</h2>
+    <div class="p2-persona-grid">
+      <div class="p2-persona-card">
+        <div class="p2-ph"><div class="p2-pt">📍 Location-Based</div><div class="p2-ptag">GEO</div></div>
+        <div class="p2-pb">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">🗺</div>
+          <div class="p2-cond">IF user.location == "Texas"</div>
+          <div class="p2-shows">Shows: <span>"Just 4 Hours from Houston — Summer Awaits"</span></div>
+          <p class="p2-why">Proximity signals reduce planning friction. Converts 23% better than generic headline for users within 500mi.</p>
+        </div>
+      </div>
+      <div class="p2-persona-card">
+        <div class="p2-ph"><div class="p2-pt">📱 Device-Based</div><div class="p2-ptag">DEVICE</div></div>
+        <div class="p2-pb">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">📱</div>
+          <div class="p2-cond">IF device == "mobile"</div>
+          <div class="p2-shows">Shows: <span>Tap-to-call CTA + Condensed 1-page form</span></div>
+          <p class="p2-why">Single-screen flow with phone option reduces mobile drop-off by 34%.</p>
+        </div>
+      </div>
+      <div class="p2-persona-card">
+        <div class="p2-ph"><div class="p2-pt">🔁 Returning User</div><div class="p2-ptag">BEHAVIOR</div></div>
+        <div class="p2-pb">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">👋</div>
+          <div class="p2-cond">IF visit_count > 1 AND no_purchase</div>
+          <div class="p2-shows">Shows: <span>"You were this close — rooms filling up"</span></div>
+          <p class="p2-why">Returnees have higher intent. Scarcity + recall converts at 3.2× cold traffic rate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <hr class="p2-divider"/>
+
+  <!-- CMS WORKFLOW -->
+  <div class="p2-section">
+    <div class="p2-label">03 — CMS Workflow</div>
+    <h2 class="p2-h2">How Marketing Publishes<br/>Without Engineering</h2>
+    <div class="wf-steps">
+      <div class="wf-step"><div class="wf-num">1</div><h3>Content Creation</h3><p>Marketing creates copy & assets in CMS (e.g., Contentful). No code needed. Structured fields ensure design-system compliance.</p></div>
+      <div class="wf-step"><div class="wf-num">2</div><h3>Review & Approval</h3><p>Preview mode in staging. Stakeholder sign-off via CMS comments. Legal reviews without engineering involvement.</p></div>
+      <div class="wf-step"><div class="wf-num">3</div><h3>Experiment Setup</h3><p>A/B variant created in CMS. Traffic split configured (50/50 or weighted). Launch tied to campaign start date.</p></div>
+      <div class="wf-step"><div class="wf-num">4</div><h3>Publish & Monitor</h3><p>One-click publish. Analytics dashboard auto-updates. Marketing iterates without engineering tickets.</p></div>
+    </div>
+  </div>
+
+  <hr class="p2-divider"/>
+
+  <!-- EXPERIMENTATION -->
+  <div class="p2-section">
+    <div class="p2-label">04 — Experimentation</div>
+    <h2 class="p2-h2">What We <em>Tested.</em> What Won.</h2>
+    <div class="p2-exp-grid">
+      <div class="p2-exp-card">
+        <div class="p2-exp-hdr"><span>EXP 01 — HEADLINE / CONTROL</span></div>
+        <div class="p2-exp-body">
+          <div class="p2-exp-vis p2-vis-a">"Summer Deals — Book Today"</div>
+          <div class="p2-exp-stats">
+            <div class="p2-estat"><span>CTR</span><strong>5.2%</strong></div>
+            <div class="p2-estat"><span>CVR</span><strong>4.8%</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="p2-exp-card winner">
+        <div class="p2-exp-hdr"><span>EXP 01 — HEADLINE / WINNER</span><span class="p2-win-badge">✓ Winner</span></div>
+        <div class="p2-exp-body">
+          <div class="p2-exp-vis p2-vis-b">"Your Family's Best Summer Starts Here"</div>
+          <div class="p2-exp-stats">
+            <div class="p2-estat"><span>CTR</span><strong>7.6%</strong></div>
+            <div class="p2-estat"><span>CVR</span><strong>7.1%</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="p2-exp-card">
+        <div class="p2-exp-hdr"><span>EXP 02 — LAYOUT / CONTROL</span></div>
+        <div class="p2-exp-body">
+          <div class="p2-exp-vis p2-vis-a" style="flex-direction:column;gap:0.3rem;">
+            <div style="width:100%;height:8px;background:#d8b4a8;border-radius:2px;"></div>
+            <div style="width:60%;height:7px;background:#d8b4a8;border-radius:2px;"></div>
+            <span style="font-size:0.62rem;color:#c8522a;margin-top:0.5rem;">CTA below the fold</span>
+          </div>
+          <div class="p2-exp-stats">
+            <div class="p2-estat"><span>Scroll-to-CTA</span><strong>41%</strong></div>
+            <div class="p2-estat"><span>CVR</span><strong>6.9%</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="p2-exp-card winner">
+        <div class="p2-exp-hdr"><span>EXP 02 — LAYOUT / WINNER</span><span class="p2-win-badge">✓ Winner</span></div>
+        <div class="p2-exp-body">
+          <div class="p2-exp-vis p2-vis-b" style="flex-direction:column;gap:0.3rem;">
+            <div style="width:100%;height:8px;background:#fff6;border-radius:2px;"></div>
+            <div style="width:60%;height:7px;background:#fff6;border-radius:2px;"></div>
+            <span style="font-size:0.62rem;color:#ffffffcc;margin-top:0.5rem;">CTA above the fold ✓</span>
+          </div>
+          <div class="p2-exp-stats">
+            <div class="p2-estat"><span>Scroll-to-CTA</span><strong>88%</strong></div>
+            <div class="p2-estat"><span>CVR</span><strong>9.2%</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="p2-divider"/>
+
+  <!-- METRICS -->
+  <div class="p2-section">
+    <div class="p2-label">05 — Outcome Metrics</div>
+    <h2 class="p2-h2">The Numbers That Matter.</h2>
+    <div class="p2-met-strip">
+      <div class="p2-met-card"><div class="p2-met-val">+47%</div><div class="p2-met-lbl">Click-Through Rate</div></div>
+      <div class="p2-met-card"><div class="p2-met-val">9.2%</div><div class="p2-met-lbl">Final Conversion Rate</div></div>
+      <div class="p2-met-card"><div class="p2-met-val">+2.4m</div><div class="p2-met-lbl">Avg. Engagement Time</div></div>
+      <div class="p2-met-card"><div class="p2-met-val">−52%</div><div class="p2-met-lbl">Bounce Rate</div></div>
+    </div>
+  </div>
+
+  <div class="site-footer">Project 02 — Campaign Landing Page Optimization</div>
+</div>
+
+<!-- ============================================================
+     PROJECT 3 — BEHAVIORAL
+     ============================================================ -->
+<div id="p3" class="panel">
+
+  <div class="p3-hero">
+    <div class="p3-eyebrow">Behavioral Analytics + Personalization — Project 03</div>
+    <h1 class="p3-h1">Every user is<br/><span class="hc">different.</span><br/>The experience<br/>should <span class="hp">adapt.</span></h1>
+    <p class="p3-desc">A behavior-driven personalization system that tracks how users actually interact — then serves each segment the experience most likely to convert.</p>
+    <div class="p3-pills">
+      <div class="p3-pill pill-c">Adobe Analytics Mindset</div>
+      <div class="p3-pill pill-p">Data-Driven UX</div>
+      <div class="p3-pill pill-g">Personalization at Scale</div>
+    </div>
+  </div>
+
+  <hr class="p3-divider"/>
+
+  <!-- TRACKING -->
+  <div class="p3-section">
+    <div class="p3-label">01 — Behavioral Tracking</div>
+    <h2 class="p3-h2">What We Actually <span style="color:#00d4ff">Measure</span></h2>
+    <div class="p3-track-grid">
+      <div class="p3-track-card tc-cy">
+        <div class="p3-ti">👆</div>
+        <h3>Click Mapping</h3>
+        <p>Every interaction logged — CTAs, nav items, image clicks, dead clicks. Heatmaps reveal what draws attention vs. what gets ignored.</p>
+        <div class="p3-tmet">→ avg 847 click events / session</div>
+      </div>
+      <div class="p3-track-card tc-pu">
+        <div class="p3-ti">📜</div>
+        <h3>Scroll Depth</h3>
+        <p>Track exact scroll percentages per page. Identify the "cliff" where engagement drops — that's where content needs restructuring.</p>
+        <div class="p3-tmet" style="color:#7c3aed;">→ avg cliff at 62% page depth</div>
+      </div>
+      <div class="p3-track-card tc-am">
+        <div class="p3-ti">⏱</div>
+        <h3>Session Duration</h3>
+        <p>Time on page, time between pages, idle time. Segment by: bounced (&lt;30s), researcher (3–10min), high-intent (10min+).</p>
+        <div class="p3-tmet" style="color:#f59e0b;">→ high-intent converts 4.8× more</div>
+      </div>
+    </div>
+    <div class="scroll-viz">
+      <h3>SCROLL DEPTH ANALYSIS — /hotel-booking/rooms</h3>
+      <div class="sb-row"><div class="sb-lbl">0%</div><div class="sb-track"><div class="sb-fill sf100"><span class="sb-val">100% users</span></div></div></div>
+      <div class="sb-row"><div class="sb-lbl">25%</div><div class="sb-track"><div class="sb-fill sf82"><span class="sb-val">82%</span></div></div></div>
+      <div class="sb-row"><div class="sb-lbl">50%</div><div class="sb-track"><div class="sb-fill sf61"><span class="sb-val">61%</span></div></div></div>
+      <div class="sb-row"><div class="sb-lbl">75%</div><div class="sb-track"><div class="sb-fill sf38"><span class="sb-val">38%</span></div></div></div>
+      <div class="sb-row"><div class="sb-lbl">100%</div><div class="sb-track"><div class="sb-fill sf22"><span class="sb-val">22%</span></div></div></div>
+      <p style="font-size:0.73rem;color:#4a6580;margin-top:1rem;">⚠ Insight: 39% of users stop scrolling between 50–75%. Pricing table lives at 68% — most users never see it. <strong style="color:#d4e4f7;">Solution: Move pricing above the fold.</strong></p>
+    </div>
+  </div>
+
+  <hr class="p3-divider"/>
+
+  <!-- INSIGHTS -->
+  <div class="p3-section">
+    <div class="p3-label">02 — Key Behavioral Insights</div>
+    <h2 class="p3-h2">What the Data <span style="color:#10b981">Revealed</span></h2>
+    <div class="p3-ins-grid">
+      <div class="p3-ins-card">
+        <div class="p3-ins-icon">📱</div>
+        <h3>Mobile Users Drop Off Faster</h3>
+        <p>Mobile users (68% of traffic) have a 74% bounce rate vs. 41% on desktop. Root cause: form fields too small, 4+ taps to checkout, slow image loading on mobile networks.</p>
+        <div class="p3-ins-stat sr">74%<br/><span style="font-family:'Sora';font-size:0.73rem;color:#4a6580;font-weight:300;">mobile bounce rate</span></div>
+      </div>
+      <div class="p3-ins-card">
+        <div class="p3-ins-icon">🔁</div>
+        <h3>Returning Users Convert 3× More</h3>
+        <p>Users on their 2nd+ visit convert at 18.4% vs. 6.2% for first-timers. They spend 2.3× longer on product pages and reach checkout at 2× the rate.</p>
+        <div class="p3-ins-stat sg">3×<br/><span style="font-family:'Sora';font-size:0.73rem;color:#4a6580;font-weight:300;">return visitor CVR vs new</span></div>
+      </div>
+      <div class="p3-ins-card">
+        <div class="p3-ins-icon">🌙</div>
+        <h3>Evening Sessions Have Highest Intent</h3>
+        <p>7–10PM sessions show 2.1× higher checkout completion. Users browse leisurely. Opportunity: time-sensitive offers during this window.</p>
+        <div class="p3-ins-stat sc">2.1×<br/><span style="font-family:'Sora';font-size:0.73rem;color:#4a6580;font-weight:300;">evening session lift</span></div>
+      </div>
+      <div class="p3-ins-card">
+        <div class="p3-ins-icon">🔍</div>
+        <h3>Search Traffic Converts Better</h3>
+        <p>Organic search converts at 8.9% vs. 3.2% from social ads. Search users arrive with higher intent. Recommendation: shift 30% of social spend to SEO.</p>
+        <div class="p3-ins-stat sg">8.9%<br/><span style="font-family:'Sora';font-size:0.73rem;color:#4a6580;font-weight:300;">organic search CVR</span></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="p3-divider"/>
+
+  <!-- LOGIC ENGINE -->
+  <div class="p3-section">
+    <div class="p3-label">03 — Personalization Logic</div>
+    <h2 class="p3-h2">The Decision <span style="color:#7c3aed">Engine</span></h2>
+    <div class="logic-box">
+      <div class="logic-hdr"><div class="ldot"></div>PERSONALIZATION RULES — LIVE ENGINE</div>
+      <div class="logic-body">
+        <div class="logic-rule">
+          <div class="l-if">NEW USER<br/>visit=1</div>
+          <div class="l-then"><div class="l-action">Show: <span>"First Visit? Here's 10% Off Your First Booking"</span></div><div class="l-reason">Incentive converts new users still in consideration phase.</div></div>
+          <div class="l-lift">+22% CVR</div>
+        </div>
+        <div class="logic-rule">
+          <div class="l-if">RETURNING<br/>no purchase</div>
+          <div class="l-then"><div class="l-action">Show: <span>Previously Viewed Items + "Only 3 Rooms Left" Scarcity Signal</span></div><div class="l-reason">High-intent returners need urgency. Saved preferences reduce re-research to zero.</div></div>
+          <div class="l-lift">+41% CVR</div>
+        </div>
+        <div class="logic-rule">
+          <div class="l-if">MOBILE<br/>device=phone</div>
+          <div class="l-then"><div class="l-action">Show: <span>Simplified 1-screen form + Tap-to-call option</span></div><div class="l-reason">Phone option serves users who prefer human confirmation for high-value purchases.</div></div>
+          <div class="l-lift">+34% form complete</div>
+        </div>
+        <div class="logic-rule">
+          <div class="l-if">HIGH INTENT<br/>session>8min</div>
+          <div class="l-then"><div class="l-action">Show: <span>Live chat prompt: "Have questions? Chat with our team"</span></div><div class="l-reason">Long sessions signal research mode. Chat converts 58% of 8min+ sessions that haven't checked out.</div></div>
+          <div class="l-lift">+58% chat CVR</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="p3-divider"/>
+
+  <!-- EXPERIMENT -->
+  <div class="p3-section">
+    <div class="p3-label">04 — Experimentation</div>
+    <h2 class="p3-h2">Generic vs. <span style="color:#10b981">Personalized</span></h2>
+    <p style="color:#4a6580;font-size:0.9rem;max-width:540px;margin-bottom:2.5rem;">50/50 split over 21 days. One cohort received static generic experience; the other received behavior-matched personalized content.</p>
+    <div class="p3-exp-wrap">
+      <div class="p3-exp-side">
+        <div class="p3-exp-top"><span>VARIANT A — GENERIC</span></div>
+        <div class="p3-screen">
+          <div class="gen-tag">HOMEPAGE</div>
+          <div class="gen-h">Welcome to AdventureLand</div>
+          <div class="gen-sub">Explore our packages and book your stay</div>
+          <div style="margin-top:0.8rem;display:flex;gap:0.4rem;flex-wrap:wrap;">
+            <span style="background:#1e3046;padding:0.2rem 0.5rem;border-radius:3px;font-size:0.58rem;color:#4a6580;">HOTELS</span>
+            <span style="background:#1e3046;padding:0.2rem 0.5rem;border-radius:3px;font-size:0.58rem;color:#4a6580;">TICKETS</span>
+            <span style="background:#1e3046;padding:0.2rem 0.5rem;border-radius:3px;font-size:0.58rem;color:#4a6580;">PACKAGES</span>
+          </div>
+        </div>
+        <div class="p3-exp-stats">
+          <div class="p3es"><span>Engagement</span><strong>3.2m</strong></div>
+          <div class="p3es"><span>CVR</span><strong>5.8%</strong></div>
+          <div class="p3es"><span>Repeat</span><strong>18%</strong></div>
+        </div>
+      </div>
+      <div class="p3-exp-side winner">
+        <div class="p3-exp-top"><span>VARIANT B — PERSONALIZED</span><span class="p3-win">✓ WINNER</span></div>
+        <div class="p3-screen">
+          <div class="pers-tag">👋 WELCOME BACK, RETURNING VISITOR</div>
+          <div class="pers-h">You looked at Lakeside Suite last time</div>
+          <div style="font-size:0.62rem;color:#4a6580;margin-bottom:0.5rem;">Only 2 rooms remain for your saved dates</div>
+          <button class="pers-offer" onclick="openModal('personalized')">→ Complete Your Booking — 10% Off Today</button>
+        </div>
+        <div class="p3-exp-stats">
+          <div class="p3es"><span>Engagement</span><strong>5.7m</strong></div>
+          <div class="p3es"><span>CVR</span><strong>11.4%</strong></div>
+          <div class="p3es"><span>Repeat</span><strong>31%</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="p3-divider"/>
+
+  <!-- METRICS -->
+  <div class="p3-section">
+    <div class="p3-label">05 — Outcome Metrics</div>
+    <h2 class="p3-h2">Measurable Impact of <span style="color:#00d4ff">Personalization</span></h2>
+    <div class="p3-fm-grid">
+      <div class="p3-fm-card" data-c="cy"><div class="p3-fm-val">+97%</div><div class="p3-fm-lbl">Engagement Rate</div></div>
+      <div class="p3-fm-card" data-c="g"><div class="p3-fm-val">+97%</div><div class="p3-fm-lbl">Conversion Uplift</div></div>
+      <div class="p3-fm-card" data-c="p"><div class="p3-fm-val">+72%</div><div class="p3-fm-lbl">Repeat Visits</div></div>
+      <div class="p3-fm-card" data-c="a"><div class="p3-fm-val">−38%</div><div class="p3-fm-lbl">Bounce Rate</div></div>
+    </div>
+  </div>
+
+  <div class="site-footer">Project 03 — Behavioral Analytics + Personalization Engine</div>
+</div>
+
+<!-- ============================================================
+     MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+// ── TAB SWITCHING ──────────────────────────────────────────
+const tabs = document.querySelectorAll('.tab-btn');
+const panels = document.querySelectorAll('.panel');
+
+tabs.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    tabs.forEach(t => t.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(target).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+// ── HOME CARDS → NAV TABS ──────────────────────────────────
+document.querySelectorAll('.proj-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const target = card.dataset.target;
+    tabs.forEach(t => t.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    const targetTab = document.querySelector(`.tab-btn[data-tab="${target}"]`);
+    targetTab.classList.add('active');
+    document.getElementById(target).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+// ── MODAL ──────────────────────────────────────────────────
+const modalData = {
+  'cta-a': {
+    title: 'Version A: "Book Now"',
+    body: `<strong>Why it underperformed:</strong><br/><br/>
+"Book Now" is transactional, generic, and creates no emotional connection. It implies obligation rather than excitement.<br/><br/>
+• No ownership language — user doesn't feel it's "theirs"<br/>
+• No urgency — "Now" is vague, not compelling<br/>
+• Feels like every other CTA on every other travel site<br/><br/>
+<strong>Result:</strong> 14.2% CTR → 5.4% overall CVR. Loses to Version B by a statistically significant margin.`
+  },
+  'cta-b': {
+    title: '✦ Version B: "Reserve Your Spot Today"',
+    body: `<strong>Why it won (97.3% confidence):</strong><br/><br/>
+Three psychological levers fire simultaneously:<br/><br/>
+• <strong>"Your Spot"</strong> — ownership language. The user is claiming something that belongs to them, not just completing a transaction.<br/>
+• <strong>"Reserve"</strong> — softer than "Book", feels less committal, lowers anxiety.<br/>
+• <strong>"Today"</strong> — specific urgency without manufactured scarcity. Implies limited-time availability.<br/><br/>
+<strong>Result:</strong> 18.7% CTR → 7.8% overall CVR. <strong>+44% lift over control.</strong>`
+  },
+  'lp-cta': {
+    title: '→ Reserve My Family\'s Spot',
+    body: `<strong>What makes this CTA work:</strong><br/><br/>
+• <strong>First-person language</strong> ("My") — users mentally commit before clicking<br/>
+• <strong>Social framing</strong> ("Family's") — speaks directly to the primary buyer persona<br/>
+• <strong>Ownership</strong> ("Spot") — implies something worth claiming, not just purchasing<br/><br/>
+<strong>Placement strategy:</strong><br/>
+— Above the fold on desktop ✓<br/>
+— Sticky on mobile scroll ✓<br/>
+— Repeated at social proof section ✓<br/><br/>
+This CTA contributed to a <strong>+47% CTR improvement</strong> over the previous generic "Book a Room" button.`
+  },
+  'personalized': {
+    title: '→ Complete Your Booking — 10% Off Today',
+    body: `<strong>Why this personalized CTA outperforms generic by 97%:</strong><br/><br/>
+This CTA fires <em>only</em> when a returning visitor is detected who viewed a specific room but didn't book. It combines:<br/><br/>
+• <strong>Recall</strong> — "You looked at Lakeside Suite" reminds them of a decision already in progress<br/>
+• <strong>Scarcity</strong> — "Only 2 rooms remain" adds urgency without being manipulative<br/>
+• <strong>Incentive</strong> — 10% off converts hesitation into action<br/>
+• <strong>Completion framing</strong> — "Complete" implies they've already started, not starting fresh<br/><br/>
+<strong>Result: 11.4% CVR vs. 5.8% generic experience = +97% lift.</strong>`
+  }
+};
+
+function openModal(key) {
+  const data = modalData[key];
+  if (!data) return;
+  document.getElementById('modal-title').textContent = data.title;
+  document.getElementById('modal-body').innerHTML = data.body;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
