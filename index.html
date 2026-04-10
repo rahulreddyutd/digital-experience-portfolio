@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Behavioral Analytics + Personalization Engine — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #060b14;
+    --surface: #0d1523;
+    --surface2: #131f30;
+    --border: #ffffff0f;
+    --text: #d4e4f7;
+    --muted: #4a6580;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --danger: #ef4444;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* GRID BG */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(#ffffff04 1px, transparent 1px),
+      linear-gradient(90deg, #ffffff04 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: #060b14ee; backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 100;
+  }
+  .nav-logo { font-family: 'Space Mono', monospace; font-size: 0.9rem; color: var(--accent); }
+  .nav-tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 2.5rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; left: -300px; top: -300px;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, #00d4ff12, transparent 60%);
+    pointer-events: none;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; right: -200px; bottom: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, #7c3aed15, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.3em; color: var(--accent);
+    text-transform: uppercase; margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-eyebrow::before { content: '◈'; }
+  .hero h1 {
+    font-size: clamp(2.5rem, 7vw, 6.5rem);
+    font-weight: 700; line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem; max-width: 900px;
+  }
+  .hero h1 .hl-cyan { color: var(--accent); }
+  .hero h1 .hl-purple { color: var(--accent2); }
+  .hero-desc {
+    max-width: 520px; font-size: 1rem; color: var(--muted); margin-bottom: 3rem;
+  }
+  .hero-pills { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .pill {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem;
+    padding: 0.4rem 1rem; border-radius: 2rem;
+    border: 1px solid; letter-spacing: 0.1em;
+  }
+  .pill-cyan { color: var(--accent); border-color: #00d4ff44; background: #00d4ff0a; }
+  .pill-purple { color: var(--accent2); border-color: #7c3aed44; background: #7c3aed0a; }
+  .pill-green { color: var(--accent3); border-color: #10b98144; background: #10b9810a; }
+
+  section { padding: 6rem 2.5rem; max-width: 1200px; margin: 0 auto; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0 2.5rem; }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; color: var(--accent); letter-spacing: 0.25em; text-transform: uppercase;
+    margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.7rem;
+  }
+  .section-label::before { content: '▶'; font-size: 0.5rem; }
+  h2 {
+    font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+    font-weight: 700; line-height: 1.1; letter-spacing: -0.01em;
+    margin-bottom: 3rem;
+  }
+
+  /* BEHAVIORAL TRACKING */
+  .track-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .track-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.8rem; position: relative; overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .track-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .track-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+  }
+  .tc-cyan::before { background: var(--accent); }
+  .tc-purple::before { background: var(--accent2); }
+  .tc-amber::before { background: var(--accent4); }
+  .track-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .track-card h3 { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.5rem; }
+  .track-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+  .track-metric {
+    margin-top: 1rem; padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace; font-size: 0.65rem;
+    color: var(--accent);
+  }
+
+  /* SCROLL DEPTH VISUALIZER */
+  .scroll-viz {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 2rem; margin-top: 2rem;
+  }
+  .scroll-viz h3 { font-size: 0.9rem; font-weight: 500; margin-bottom: 1.5rem; color: var(--muted); }
+  .scroll-bar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.8rem; }
+  .scroll-bar-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); width: 40px; flex-shrink: 0; }
+  .scroll-bar-track { flex: 1; height: 20px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .scroll-bar-fill { height: 100%; border-radius: 3px; display: flex; align-items: center; padding-left: 0.5rem; transition: width 1s ease; }
+  .scroll-bar-val { font-family: 'Space Mono', monospace; font-size: 0.6rem; font-weight: 700; color: white; }
+  .fill-100 { width: 100%; background: var(--accent3); }
+  .fill-82 { width: 82%; background: var(--accent3); }
+  .fill-61 { width: 61%; background: var(--accent4); }
+  .fill-38 { width: 38%; background: var(--accent4); }
+  .fill-22 { width: 22%; background: var(--danger); }
+
+  /* INSIGHTS */
+  .insights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media(max-width:600px){ .insights-grid { grid-template-columns: 1fr; } }
+  .insight-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem;
+    position: relative;
+  }
+  .insight-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+  .insight-card h3 { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.5rem; }
+  .insight-card p { font-size: 0.82rem; color: var(--muted); }
+  .insight-stat {
+    margin-top: 1.2rem;
+    font-family: 'Space Mono', monospace; font-size: 1.8rem; font-weight: 700;
+    line-height: 1;
+  }
+  .stat-red { color: var(--danger); }
+  .stat-green { color: var(--accent3); }
+  .stat-cyan { color: var(--accent); }
+
+  /* PERSONALIZATION LOGIC */
+  .logic-container {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden;
+  }
+  .logic-header {
+    padding: 1.2rem 2rem; background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--muted);
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .logic-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent3); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .logic-body { padding: 2rem; }
+  .logic-rule {
+    display: flex; gap: 2rem; padding: 1.2rem;
+    border-radius: 8px; margin-bottom: 1rem; align-items: flex-start;
+    border: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .logic-rule:hover { background: var(--surface2); }
+  .logic-if {
+    font-family: 'Space Mono', monospace; font-size: 0.7rem;
+    color: var(--accent2); background: #7c3aed15;
+    border: 1px solid #7c3aed33;
+    padding: 0.5rem 0.8rem; border-radius: 4px;
+    flex-shrink: 0; white-space: nowrap; align-self: start;
+    min-width: 110px; text-align: center;
+  }
+  .logic-then { flex: 1; }
+  .logic-action { font-weight: 500; font-size: 0.9rem; margin-bottom: 0.3rem; }
+  .logic-action span { color: var(--accent); }
+  .logic-reason { font-size: 0.78rem; color: var(--muted); }
+  .logic-lift {
+    font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    color: var(--accent3); background: #10b98115; border: 1px solid #10b98133;
+    padding: 0.3rem 0.6rem; border-radius: 4px;
+    flex-shrink: 0; white-space: nowrap; align-self: center;
+  }
+
+  /* EXPERIMENT */
+  .exp-compare {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;
+  }
+  @media(max-width:600px){ .exp-compare { grid-template-columns: 1fr; } }
+  .exp-side {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+  }
+  .exp-side.winner { border-color: var(--accent3); }
+  .exp-top {
+    padding: 1rem 1.5rem; background: var(--surface2); border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted);
+  }
+  .win-badge { color: var(--accent3); }
+  .exp-screen {
+    margin: 1.5rem; border-radius: 8px; overflow: hidden;
+    background: #1a2a3a; padding: 1.2rem;
+    font-size: 0.75rem;
+  }
+  .generic-tag { color: var(--muted); font-family: 'Space Mono', monospace; font-size: 0.6rem; margin-bottom: 0.5rem; }
+  .generic-h { font-weight: 500; color: var(--text); margin-bottom: 0.3rem; }
+  .generic-sub { color: var(--muted); font-size: 0.7rem; }
+  .pers-tag { color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.6rem; margin-bottom: 0.5rem; }
+  .pers-h { font-weight: 500; color: var(--text); margin-bottom: 0.3rem; }
+  .pers-offer { background: var(--accent); color: #001a2a; font-size: 0.65rem; padding: 0.3rem 0.6rem; border-radius: 3px; display: inline-block; margin-top: 0.3rem; }
+  .exp-stats-row { padding: 1rem 1.5rem; display: flex; gap: 1.5rem; }
+  .es span { display: block; font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted); }
+  .es strong { font-size: 1.1rem; font-family: 'Space Mono', monospace; }
+  .exp-side.winner .es strong { color: var(--accent3); }
+
+  /* METRICS */
+  .final-metrics {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem;
+  }
+  .fm-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 2rem; text-align: center; position: relative; overflow: hidden;
+  }
+  .fm-card::after {
+    content: ''; position: absolute; inset: 0; opacity: 0.04;
+    background: radial-gradient(circle at 50% 0%, var(--c) 0, transparent 70%);
+  }
+  .fm-card[data-c="cyan"] { --c: var(--accent); }
+  .fm-card[data-c="green"] { --c: var(--accent3); }
+  .fm-card[data-c="purple"] { --c: var(--accent2); }
+  .fm-card[data-c="amber"] { --c: var(--accent4); }
+  .fm-val {
+    font-size: 2.8rem; font-weight: 700; line-height: 1; margin-bottom: 0.4rem;
+    font-family: 'Space Mono', monospace;
+  }
+  .fm-card[data-c="cyan"] .fm-val { color: var(--accent); }
+  .fm-card[data-c="green"] .fm-val { color: var(--accent3); }
+  .fm-card[data-c="purple"] .fm-val { color: var(--accent2); }
+  .fm-card[data-c="amber"] .fm-val { color: var(--accent4); }
+  .fm-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem; text-align: center;
+    font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">◈ BEHAVIOR.ENGINE</span>
+  <span class="nav-tag">Project 03 / Case Study</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Behavioral Analytics + Personalization Engine</div>
+  <h1>Every user is<br/><span class="hl-cyan">different.</span><br/>The experience<br/>should <span class="hl-purple">adapt.</span></h1>
+  <p class="hero-desc">A behavior-driven personalization system that tracks how users actually interact — then serves each segment the experience most likely to convert them.</p>
+  <div class="hero-pills">
+    <div class="pill pill-cyan">Adobe Analytics Mindset</div>
+    <div class="pill pill-purple">Data-Driven UX</div>
+    <div class="pill pill-green">Personalization at Scale</div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- BEHAVIORAL TRACKING -->
+<section>
+  <div class="section-label">01 — Behavioral Tracking</div>
+  <h2>What We<br/>Actually <span style="color:var(--accent)">Measure</span></h2>
+
+  <div class="track-grid">
+    <div class="track-card tc-cyan">
+      <div class="track-icon">👆</div>
+      <h3>Click Mapping</h3>
+      <p>Every interaction logged — CTAs, nav items, image clicks, dead clicks. Heatmaps reveal what draws attention vs. what gets ignored.</p>
+      <div class="track-metric">→ avg 847 click events / session</div>
+    </div>
+    <div class="track-card tc-purple">
+      <div class="track-icon">📜</div>
+      <h3>Scroll Depth</h3>
+      <p>Track exact scroll percentages per page. Identify the "cliff" where engagement drops — that's where content must be restructured.</p>
+      <div class="track-metric" style="color:var(--accent2)">→ avg cliff at 62% page depth</div>
+    </div>
+    <div class="track-card tc-amber">
+      <div class="track-icon">⏱</div>
+      <h3>Session Duration</h3>
+      <p>Time on page, time between pages, idle time. Segment by: bounced (<30s), researcher (3–10min), high-intent (10min+).</p>
+      <div class="track-metric" style="color:var(--accent4)">→ high-intent converts 4.8× more</div>
+    </div>
+  </div>
+
+  <div class="scroll-viz">
+    <h3>SCROLL DEPTH ANALYSIS — /hotel-booking/rooms</h3>
+    <div class="scroll-bar-row">
+      <div class="scroll-bar-label">0%</div>
+      <div class="scroll-bar-track"><div class="scroll-bar-fill fill-100"><span class="scroll-bar-val">100% users</span></div></div>
+    </div>
+    <div class="scroll-bar-row">
+      <div class="scroll-bar-label">25%</div>
+      <div class="scroll-bar-track"><div class="scroll-bar-fill fill-82"><span class="scroll-bar-val">82%</span></div></div>
+    </div>
+    <div class="scroll-bar-row">
+      <div class="scroll-bar-label">50%</div>
+      <div class="scroll-bar-track"><div class="scroll-bar-fill fill-61"><span class="scroll-bar-val">61%</span></div></div>
+    </div>
+    <div class="scroll-bar-row">
+      <div class="scroll-bar-label">75%</div>
+      <div class="scroll-bar-track"><div class="scroll-bar-fill fill-38"><span class="scroll-bar-val">38%</span></div></div>
+    </div>
+    <div class="scroll-bar-row">
+      <div class="scroll-bar-label">100%</div>
+      <div class="scroll-bar-track"><div class="scroll-bar-fill fill-22"><span class="scroll-bar-val">22%</span></div></div>
+    </div>
+    <p style="font-size:0.75rem; color:var(--muted); margin-top:1rem;">⚠ Insight: 39% of users stop scrolling between 50–75%. Pricing table lives at 68% — most users never see it. Solution: Move pricing above the fold.</p>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- INSIGHTS -->
+<section>
+  <div class="section-label">02 — Key Behavioral Insights</div>
+  <h2>What the Data<br/><span style="color:var(--accent3)">Revealed</span></h2>
+
+  <div class="insights-grid">
+    <div class="insight-card">
+      <div class="insight-icon">📱</div>
+      <h3>Mobile Users Drop Off Faster</h3>
+      <p>Mobile users (68% of traffic) have a 74% bounce rate vs. 41% on desktop. Root cause: form fields too small, 4+ taps to reach checkout, slow image loading on mobile networks.</p>
+      <div class="insight-stat stat-red">74%<br/><span style="font-family:'Sora'; font-size:0.75rem; color:var(--muted); font-weight:300;">mobile bounce rate</span></div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🔁</div>
+      <h3>Returning Users Convert 3× More</h3>
+      <p>Users on their 2nd+ visit convert at 18.4% vs. 6.2% for first-timers. They spend 2.3× longer on product pages and reach checkout at 2× the rate.</p>
+      <div class="insight-stat stat-green">3×<br/><span style="font-family:'Sora'; font-size:0.75rem; color:var(--muted); font-weight:300;">return visitor CVR vs new</span></div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🌙</div>
+      <h3>Evening Sessions Have Highest Intent</h3>
+      <p>7–10PM sessions show 2.1× higher checkout completion. Users are browsing leisurely, not commuting. Opportunity: time-sensitive offers during this window.</p>
+      <div class="insight-stat stat-cyan">2.1×<br/><span style="font-family:'Sora'; font-size:0.75rem; color:var(--muted); font-weight:300;">evening session conversion lift</span></div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🔍</div>
+      <h3>Search Traffic Converts Better Than Social</h3>
+      <p>Organic search visitors convert at 8.9% vs. 3.2% from social ads. Search users arrive with higher intent. Budget reallocation recommendation: shift 30% of social spend to SEO.</p>
+      <div class="insight-stat stat-green">8.9%<br/><span style="font-family:'Sora'; font-size:0.75rem; color:var(--muted); font-weight:300;">organic search CVR</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- PERSONALIZATION LOGIC -->
+<section>
+  <div class="section-label">03 — Personalization Logic</div>
+  <h2>The Decision<br/><span style="color:var(--accent2)">Engine</span></h2>
+
+  <div class="logic-container">
+    <div class="logic-header">
+      <div class="logic-dot"></div>
+      PERSONALIZATION RULES — LIVE ENGINE
+    </div>
+    <div class="logic-body">
+
+      <div class="logic-rule">
+        <div class="logic-if">NEW USER<br/>visit=1</div>
+        <div class="logic-then">
+          <div class="logic-action">Show: <span>"First Visit? Here's 10% Off Your First Booking"</span></div>
+          <div class="logic-reason">Reduce first-visit friction. Incentive converts new users who are still in consideration phase.</div>
+        </div>
+        <div class="logic-lift">+22% CVR</div>
+      </div>
+
+      <div class="logic-rule">
+        <div class="logic-if">RETURNING<br/>visit>1<br/>no purchase</div>
+        <div class="logic-then">
+          <div class="logic-action">Show: <span>Previously Viewed Items + "Only 3 Rooms Left" Scarcity Signal</span></div>
+          <div class="logic-reason">High-intent returners need urgency, not discovery. Saved preferences reduce re-research time to zero.</div>
+        </div>
+        <div class="logic-lift">+41% CVR</div>
+      </div>
+
+      <div class="logic-rule">
+        <div class="logic-if">MOBILE<br/>device=phone</div>
+        <div class="logic-then">
+          <div class="logic-action">Show: <span>Simplified 1-screen form + Tap-to-call option</span></div>
+          <div class="logic-reason">Eliminates multi-step friction. Phone option serves users who prefer human confirmation for high-value purchases.</div>
+        </div>
+        <div class="logic-lift">+34% form complete</div>
+      </div>
+
+      <div class="logic-rule">
+        <div class="logic-if">HIGH INTENT<br/>session>8min</div>
+        <div class="logic-then">
+          <div class="logic-action">Show: <span>Live chat prompt: "Have questions? Chat with our team"</span></div>
+          <div class="logic-reason">Long sessions signal research mode. Live chat converts 58% of 8min+ sessions that haven't initiated checkout.</div>
+        </div>
+        <div class="logic-lift">+58% chat CVR</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- EXPERIMENT -->
+<section>
+  <div class="section-label">04 — Experimentation</div>
+  <h2>Generic vs.<br/><span style="color:var(--accent3)">Personalized</span></h2>
+
+  <p style="color:var(--muted); font-size:0.9rem; max-width:540px; margin-bottom:2.5rem;">Ran a 50/50 split: one cohort received static generic experience, the other received behavior-matched personalized content. Results after 21 days.</p>
+
+  <div class="exp-compare">
+    <div class="exp-side">
+      <div class="exp-top"><span>VARIANT A — GENERIC EXPERIENCE</span></div>
+      <div class="exp-screen">
+        <div class="generic-tag">HOMEPAGE</div>
+        <div class="generic-h">Welcome to AdventureLand</div>
+        <div class="generic-sub">Explore our packages and book your stay</div>
+        <div style="margin-top:0.8rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <span style="background:#1e3046; padding:0.2rem 0.5rem; border-radius:3px; font-size:0.6rem; color:#4a6580;">HOTELS</span>
+          <span style="background:#1e3046; padding:0.2rem 0.5rem; border-radius:3px; font-size:0.6rem; color:#4a6580;">TICKETS</span>
+          <span style="background:#1e3046; padding:0.2rem 0.5rem; border-radius:3px; font-size:0.6rem; color:#4a6580;">PACKAGES</span>
+        </div>
+      </div>
+      <div class="exp-stats-row">
+        <div class="es"><span>Engagement</span><strong>3.2m</strong></div>
+        <div class="es"><span>CVR</span><strong>5.8%</strong></div>
+        <div class="es"><span>Repeat Visits</span><strong>18%</strong></div>
+      </div>
+    </div>
+    <div class="exp-side winner">
+      <div class="exp-top"><span>VARIANT B — PERSONALIZED</span><span class="win-badge">✓ WINNER</span></div>
+      <div class="exp-screen">
+        <div class="pers-tag">👋 WELCOME BACK, RETURNING VISITOR</div>
+        <div class="pers-h">You looked at Lakeside Suite last time</div>
+        <div style="font-size:0.65rem; color:#4a6580; margin-bottom:0.5rem;">Only 2 rooms remain for your saved dates</div>
+        <div class="pers-offer">→ Complete Your Booking — 10% Off Today</div>
+      </div>
+      <div class="exp-stats-row">
+        <div class="es"><span>Engagement</span><strong>5.7m</strong></div>
+        <div class="es"><span>CVR</span><strong>11.4%</strong></div>
+        <div class="es"><span>Repeat Visits</span><strong>31%</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- METRICS -->
+<section>
+  <div class="section-label">05 — Outcome Metrics</div>
+  <h2>Measurable Impact<br/>of <span style="color:var(--accent)">Personalization</span></h2>
+  <div class="final-metrics">
+    <div class="fm-card" data-c="cyan"><div class="fm-val">+97%</div><div class="fm-label">Engagement Rate</div></div>
+    <div class="fm-card" data-c="green"><div class="fm-val">+97%</div><div class="fm-label">Conversion Uplift</div></div>
+    <div class="fm-card" data-c="purple"><div class="fm-val">+72%</div><div class="fm-label">Repeat Visits</div></div>
+    <div class="fm-card" data-c="amber"><div class="fm-val">−38%</div><div class="fm-label">Bounce Rate</div></div>
+  </div>
+</section>
+
+<footer>Project 03 — Behavioral Analytics + Personalization Engine &nbsp;|&nbsp; Adobe Analytics Mindset &nbsp;|&nbsp; Data-Driven UX</footer>
+</body>
+</html>
